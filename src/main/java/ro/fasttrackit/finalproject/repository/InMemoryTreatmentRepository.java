@@ -1,22 +1,30 @@
 package ro.fasttrackit.finalproject.repository;
 
-import ro.fasttrackit.finalproject.dataTransferObject.TreatmentDTO;
-import ro.fasttrackit.finalproject.domain.Treatment;
+import ro.fasttrackit.finalproject.dataTransferObject.MedicamentDTO;
+import ro.fasttrackit.finalproject.domain.Medication;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class InMemoryTreatmentRepository implements TreatmentRepository {
-    private List<Treatment> medicaments = new ArrayList<>();
+    private List<Medication> medicaments = new ArrayList<>();
 
     @Override
-    public List<Treatment> findAll() {
+    public List<Medication> findAll() {
         return Collections.unmodifiableList(medicaments);
     }
 
     @Override
-    public void save(TreatmentDTO medicament) {
-        medicaments.add(new Treatment(medicaments.size(),medicament.name(), medicament.quantity(), medicament.price()));
+    public void save(MedicamentDTO medicament) {
+        medicaments.add(new Medication(
+                medicaments.size()
+                ,medicament.name()
+                ,medicament.quantity()
+                ,medicament.price()
+                ,Date.valueOf(String.valueOf(medicament.expiryDate()))
+                ,medicament.usage()
+                ,medicament.type()));
     }
 }

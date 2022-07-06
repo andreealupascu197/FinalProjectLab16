@@ -1,6 +1,6 @@
 package ro.fasttrackit.finalproject.web;
 
-import ro.fasttrackit.finalproject.dataTransferObject.TreatmentDTO;
+import ro.fasttrackit.finalproject.dataTransferObject.MedicamentDTO;
 import ro.fasttrackit.finalproject.service.InvalidName;
 import ro.fasttrackit.finalproject.service.TreatmentService;
 import javax.servlet.ServletException;
@@ -68,7 +68,7 @@ public class MedicationServlet extends HttpServlet {
         out.println("</th>");
         out.println("</tr>");
 
-        for (TreatmentDTO value : tratamentService.listMedications()) {
+        for (MedicamentDTO value : tratamentService.listMedications()) {
                 out.println("<tr>");
                 out.println("<td>");
                 out.println(value.name());

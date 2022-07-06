@@ -1,14 +1,18 @@
 package ro.fasttrackit.finalproject.repository;
 
-import ro.fasttrackit.finalproject.dataTransferObject.TreatmentDTO;
-import ro.fasttrackit.finalproject.domain.Treatment;
+import ro.fasttrackit.finalproject.dataTransferObject.MedicamentDTO;
+import ro.fasttrackit.finalproject.domain.AdministrationMethod;
+import ro.fasttrackit.finalproject.domain.Medication;
+import ro.fasttrackit.finalproject.domain.Type;
+import ro.fasttrackit.finalproject.domain.Usage;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public class PostgresTreatmentRepository implements TreatmentRepository {
-    static final String URL = "jdbc:postgresql://localhost:5432/temaproiect";
+    static final String URL = "jdbc:postgresql://localhost:5432/finalproject";
 
     static final String USERNAME = "finalprojectapp";
     static final String PASSWORD = "abc123";
@@ -22,58 +26,73 @@ public class PostgresTreatmentRepository implements TreatmentRepository {
     }
 
     @Override
-    public List<Treatment> findAll() {
+    public List<Medication> findAll() {
 
         try (// 3. obtain a connection
              Connection conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-
-             // 4. create a query statement
              Statement st = conn.createStatement();
 
-             // 5. execute a query
+
              ResultSet rs = st.executeQuery("SELECT * FROM medication");
+             ResultSet rsA = st.executeQuery("SELECT * FROM administration");
 
              // 6. iterate the result set and print the values
         ) {
-            List<Treatment> operations = new ArrayList<>();
+            List<Medication> medicaments = new ArrayList<>();
             while (rs.next()) {
                 long id = rs.getLong("id");
                 String name = rs.getString("name");
-                int quatity = rs.getInt(3);
-                int price = rs.getInt(4);
-                operations.add(new Treatment(id, name, quatity, price));
+                int quantity = rs.getInt(3);
+                double price = rs.getInt(4);
+                Date expiryDate = rs.getDate(5);
+                String usage = rs.getString("usage");
+                String type = rs.getString("type");
+
+
+                medicaments.add(new Medication(id, name, quantity, price, Date.valueOf(String.valueOf(expiryDate)), Usage.valueOf(usage), Type.valueOf(type)));
+
+                List<AdministrationMethod> medicamentAdministration = new ArrayList<>();
+                while ((rsA.next())) {
+                    long idUser = rsA.getLong("idUser");
+                    int frequency = rsA.getInt(2);
+
+                }
             }
-            return operations;
+            return medicaments;
         } catch (SQLException e) {
             throw new RepositoryAccessException(e);
         }
     }
 
     @Override
-    public void save(TreatmentDTO medicament) {
-        // 1. load driver, no longer needed in new versions of JDBC
-        try (// 3. obtain a connection
+    public void save(MedicamentDTO medicament) {
+
+        try (
              Connection conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-             // 4. create a query statement
-             PreparedStatement pSt = conn.prepareStatement(
-                     "INSERT INTO medication (name, quantity, price) VALUES (?,?,?)"
+             PreparedStatement pStMedication = conn.prepareStatement(
+                     "INSERT INTO medication (name, quantity, price,expiryDate, usage, type ) VALUES (?,?,?,?,?,?)"
              )
-        ){
+
+        ) {
 //            Class.forName("org.postgresql.Driver");
 //            // 2. define connection params to db
 
 
+            pStMedication.setString(1, medicament.name());
+            pStMedication.setInt(2, medicament.quantity());
+            pStMedication.setDouble(3, medicament.price());
+            pStMedication.setDate(4, Date.valueOf(String.valueOf(medicament.expiryDate())));
+            pStMedication.setString(5, String.valueOf(medicament.usage()));
+            pStMedication.setString(6, String.valueOf(medicament.type()));
 
-            pSt.setString(1, medicament.name());
-            pSt.setInt(2, medicament.quantity());
-            pSt.setInt(3, medicament.price());
+
 
             // 5. execute a prepared statement
-            int rowsInserted = pSt.executeUpdate();
+            int rowsInserted = pStMedication.executeUpdate();
             System.out.println("Inserted " + rowsInserted);
 
             // 6. close the objects will happen due to the try-with-resources + AutoClosable interface
-        } catch ( SQLException e) {
+        } catch (SQLException e) {
             throw new RepositoryAccessException(e);
         }
 

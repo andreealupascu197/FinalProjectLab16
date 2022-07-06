@@ -1,12 +1,14 @@
 package ro.fasttrackit.finalproject.repository;
 
-import ro.fasttrackit.finalproject.dataTransferObject.TreatmentDTO;
-import ro.fasttrackit.finalproject.domain.Treatment;
+import ro.fasttrackit.finalproject.dataTransferObject.MedicamentDTO;
+import ro.fasttrackit.finalproject.domain.AdministrationMethod;
+import ro.fasttrackit.finalproject.domain.Medication;
 
 import java.util.List;
 
 public interface TreatmentRepository {
-    List<Treatment> findAll();
+    List<Medication> findAll();
+    //List<AdministrationMethod> findAll();
 
-    void save(TreatmentDTO medicament);
+    void save(MedicamentDTO medicament);
 }
