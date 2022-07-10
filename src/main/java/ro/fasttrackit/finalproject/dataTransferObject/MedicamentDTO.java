@@ -1,5 +1,6 @@
 package ro.fasttrackit.finalproject.dataTransferObject;
 
+import ro.fasttrackit.finalproject.domain.AdministrationMethod;
 import ro.fasttrackit.finalproject.domain.Type;
 import ro.fasttrackit.finalproject.domain.Usage;
 
@@ -11,6 +12,7 @@ public record MedicamentDTO(
         Double price,
         Date expiryDate,
         Usage usage,
-        Type type
+        Type type,
+        AdministrationMethodDTO administrationMethodDTO
 ) {
 }

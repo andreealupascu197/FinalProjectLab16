@@ -10,8 +10,8 @@ public record Medication(
         Double price,
         Date expiryDate,
         Usage usage,
-        Type type
-        //AdministrationMethod administrationMethod
+        Type type,
+        AdministrationMethod administrationMethod
 
 
 ) {

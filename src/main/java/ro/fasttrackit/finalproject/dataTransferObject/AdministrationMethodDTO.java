@@ -6,7 +6,7 @@ import java.util.List;
 
 public record AdministrationMethodDTO(
         Integer frequency,
-        List<TimeOfDay> timesOfDay,
+        TimeOfDay timeOfDay,
         Boolean beforeEating
 ) {
 
