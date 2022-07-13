@@ -9,5 +9,5 @@ import java.util.List;
 public interface TreatmentRepository {
     List<Medication> findAll();
 
-    void save(MedicamentDTO medicament);
+    void save(MedicamentDTO medicamentDTO);
 }

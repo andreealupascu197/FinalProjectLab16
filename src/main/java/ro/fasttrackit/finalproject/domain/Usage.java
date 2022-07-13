@@ -12,5 +12,5 @@ public enum Usage {
     VITAMINS,
     SKIN,
     ALLERGIES,
-    NUTRITION;
+    NUTRITION,
 }

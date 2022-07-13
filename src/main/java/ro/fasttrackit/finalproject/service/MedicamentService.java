@@ -9,7 +9,7 @@ import ro.fasttrackit.finalproject.repository.TreatmentRepository;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.Instant;;
+;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -62,10 +62,10 @@ public class MedicamentService {
         int q = Integer.parseInt(quantity);
         double pr = Integer.parseInt(price);
 
-        Usage usg = Usage.valueOf(usage.toUpperCase());
-        Type tp = Type.valueOf(type.toUpperCase());
+        Usage usg = Usage.valueOf(usage);
+        Type tp = Type.valueOf(type);
         int freq= Integer.parseInt(frequency);
-        TimeOfDay timeDay = TimeOfDay.valueOf(timeOfDay.toUpperCase());
+        TimeOfDay timeDay = TimeOfDay.valueOf(timeOfDay);
         boolean beforeEat = Boolean.parseBoolean(beforeEating);
         AdministrationMethodDTO adminMethod = new AdministrationMethodDTO(freq,timeDay,beforeEat);
 
@@ -79,5 +79,4 @@ public class MedicamentService {
         medicamentRepository.save(new MedicamentDTO(name, q, pr, expiryDt, usg, tp, adminMethod));
         return wasAdded;
     }
-
 }

@@ -1,6 +1,5 @@
 package ro.fasttrackit.finalproject.repository;
 
-import ro.fasttrackit.finalproject.dataTransferObject.AdministrationMethodDTO;
 import ro.fasttrackit.finalproject.dataTransferObject.MedicamentDTO;
 import ro.fasttrackit.finalproject.domain.AdministrationMethod;
 import ro.fasttrackit.finalproject.domain.Medication;
@@ -12,7 +11,6 @@ import java.util.List;
 
 public class InMemoryTreatmentRepository implements TreatmentRepository {
     private List<Medication> medicaments = new ArrayList<>();
-
 
     @Override
     public List<Medication> findAll() {

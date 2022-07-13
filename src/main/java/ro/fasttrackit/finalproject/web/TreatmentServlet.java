@@ -21,43 +21,62 @@ public class TreatmentServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        String name = req.getParameter("name");
-        String quantity = req.getParameter("quantity");
-        String price = req.getParameter("price");
-        String expiryDate = req.getParameter("expiryDate");
-        String type = req.getParameter("type");
-        String usage = req.getParameter("usage");
-        String frequency = req.getParameter("frequency");
-        String timeOfDay = req.getParameter("timeOfDay");
-        String beforeEating = req.getParameter("beforeEating");
+//        if (req.getParameter("action").equals("delete")) {
+//            String medicamentName = req.getParameter("medicamentName");
+//            //medicamentService.listMedications().remove(medicamentService);
+//            //medicamentService.deleteMedicament();
+//            resp.setContentType("text/html;charset=UTF-8");
+//            PrintWriter out = resp.getWriter();
+//            out.println("<h2>Delete</h2>");
+//
+////            String medicamentName = req.getParameter("medicamentName");
+//
+//            out.println("Medicamentul " + medicamentName + " a fost sters." + "</b><br/>");
+//            out.println("<a href='/FinalProjectLab16_war_exploded'>Go Back</a>");
+//            out.close();
 
 
+//        } else {
 
-        try {
-            boolean wasAdded = medicamentService.addMedicament(
-                    name,
-                    quantity,
-                    price,
-                    expiryDate,
-                    usage,
-                    type,
-                    frequency,
-                    timeOfDay,
-                    beforeEating);
 
-            resp.setContentType("text/html;charset=UTF-8");
-            PrintWriter out = resp.getWriter();
-            out.println("<h2> Succes! </h2>");
+            String name = req.getParameter("name");
+            String quantity = req.getParameter("quantity");
+            String price = req.getParameter("price");
+            String expiryDate = req.getParameter("expiryDate");
+            String type = req.getParameter("type");
+            String usage = req.getParameter("usage");
+            String frequency = req.getParameter("frequency");
+            String timeOfDay = req.getParameter("timeOfDay");
+            String beforeEating = req.getParameter("beforeEating");
 
-            out.println("Medicamentul a fost adaugat." + "</b><br/>");
-            out.println("<a href='/FinalProjectLab16_war_exploded'>Go Back</a>");
-            out.close();
 
-        } catch (NumberFormatException e) {
-            endRequestWithError(resp, "Invalid numbers");
-        } catch (InvalidName e) {
-            endRequestWithError(resp, "Number are not accepted as names");
-        }
+            try {
+                boolean wasAdded = medicamentService.addMedicament(
+                        name,
+                        quantity,
+                        price,
+                        expiryDate,
+                        usage,
+                        type,
+                        frequency,
+                        timeOfDay,
+                        beforeEating);
+
+                resp.setContentType("text/html;charset=UTF-8");
+                PrintWriter out = resp.getWriter();
+                out.println("<h2> Succes! </h2>");
+
+                out.println("Medicamentul a fost adaugat." + "</b><br/>");
+                out.println("<a href='/FinalProjectLab16_war_exploded'>Go Back</a>");
+                out.close();
+
+
+            } catch (NumberFormatException e) {
+                endRequestWithError(resp, "Invalid numbers");
+            } catch (InvalidName e) {
+                endRequestWithError(resp, "Number are not accepted as names");
+            }
+     //   }
     }
 
     private void endRequestWithError(HttpServletResponse resp, String message) throws IOException {
@@ -65,7 +84,9 @@ public class TreatmentServlet extends HttpServlet {
         writer.write(message);
         resp.setStatus(422);
         writer.close();
+
     }
+
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -86,6 +107,7 @@ public class TreatmentServlet extends HttpServlet {
         out.println("<th>Frequency</th>");
         out.println("<th>Time Of Day</th>");
         out.println("<th>Before Eating</th>");
+        out.println("<th>Detele</th>");
         out.println("</tr>");
 
         for (MedicamentDTO value : medicamentService.listMedications()) {
@@ -117,6 +139,9 @@ public class TreatmentServlet extends HttpServlet {
             out.println("<td>");
             out.println(value.administrationMethodDTO().beforeEating());
             out.println("</td>");
+//            out.println("<td>");
+//            out.println("<input type=\"button\" value=\"Delete \">");
+//            out.println("</td>");
             out.println("</tr>");
         }
 
@@ -124,6 +149,21 @@ public class TreatmentServlet extends HttpServlet {
         out.println("</body>");
         out.close();
     }
+
+    public void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        resp.setContentType("text/html;charset=UTF-8");
+        PrintWriter out = resp.getWriter();
+        out.println("<h2>Delete</h2>");
+
+        String medicamentName = req.getParameter("medicamentName");
+
+        out.println("Medicamentul " + medicamentName + " a fost sters." + "</b><br/>");
+        out.println("<a href='/FinalProjectLab16_war_exploded'>Go Back</a>");
+        out.close();
+
+    }
+
 
     @Override
     public void init() throws ServletException {
